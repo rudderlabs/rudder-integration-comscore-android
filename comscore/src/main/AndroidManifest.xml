@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rudderlabs.android.integration.comscore">
+    <application>
+        <receiver
+            android:name="io.branch.referral.InstallListener"
+            android:exported="true"
+            android:permission="Track installation for better performance">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
