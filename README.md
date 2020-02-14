@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/rudderstack/rudderstack/branch/images/download.svg?version=0.1.1) ](https://bintray.com/rudderstack/rudderstack/branch/0.1.1/link)
+[ ![Download](https://api.bintray.com/packages/rudderstack/rudderstack/comscore/images/download.svg?version=0.1.1) ](https://bintray.com/rudderstack/rudderstack/comscore/0.1.1/link)
 
 # What is Rudder?
 
@@ -11,7 +11,7 @@ Rudder is a platform for collecting, storing and routing customer event data to 
 Released under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 ## Getting Started with BranchIO Integration of Android SDK
-1. Add [BranchIO](https://branch.io) as a destination in the [Dashboard](https://app.rudderlabs.com/) and define ```apiToken``` and ```eventMapping```
+1. Add [Comscore](https://www.comscore.com/) as a destination in the [Dashboard](https://app.rudderlabs.com/) and define ```c2 ID``` and ```publisher secret```
 
 2. Add these lines to your ```app/build.gradle```
 ```
@@ -24,7 +24,7 @@ repositories {
 3. Add the dependency under ```dependencies```
 ```
 implementation 'com.rudderstack.android.sdk:core:1.0'
-implementation 'com.rudderstack.android.integration:branch:0.1.1'
+implementation 'com.rudderstack.android.integration:comscore:0.1.1'
 ```
 
 ## Initialize ```RudderClient```
@@ -35,7 +35,7 @@ val rudderClient: RudderClient = RudderClient.getInstance(
     RudderConfig.Builder()
         .withEndPointUri(END_POINT_URI)
         .withLogLevel(RudderLogger.RudderLogLevel.DEBUG)
-        .withFactory(BranchIntegrationFactory.FACTORY)
+        .withFactory(ComscoreIntegrationFactory.FACTORY)
         .build()
 )
 ```
