@@ -16,17 +16,11 @@ android {
     }
 }
 
-repositories {
-    maven { url "https://dl.bintray.com/rudderstack/rudderstack" }
-    maven { url "https://comscore.bintray.com/Analytics" }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // rudder core sdk
-    //compileOnly 'com.rudderstack.android.sdk:core:1.0'
-    compileOnly project(':core')
+    implementation 'com.rudderstack.android.sdk:core:[1.17.0, 2.0.0)'
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // comscore sdk and other requirements
