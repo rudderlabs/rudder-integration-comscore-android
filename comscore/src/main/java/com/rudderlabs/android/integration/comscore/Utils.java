@@ -23,7 +23,11 @@ public class Utils {
                     String c2 = jsonObject.get("c2").getAsString();
                     String appName = jsonObject.get("appName").getAsString();
                     boolean foregroundAndBackground = jsonObject.get("foregroundAndBackground").getAsBoolean();
-                    int autoUpdateInterval = jsonObject.get("autoUpdateInterval").getAsInt();
+                    int autoUpdateInterval = 60;    // Default value mentioned in comScore doc is 60 seconds
+                    if (!Utils.isEmpty(jsonObject.get("autoUpdateInterval").getAsString())) {
+                        autoUpdateInterval = jsonObject.get("autoUpdateInterval").getAsInt();
+                    }
+
                     boolean useHTTPS = true;
                     boolean foregroundOnly = jsonObject.get("foregroundOnly").getAsBoolean();
 
