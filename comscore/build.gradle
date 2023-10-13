@@ -25,6 +25,7 @@ dependencies {
 
     // comscore sdk and other requirements
     implementation "com.comscore:android-analytics:6.10.0"
+    implementation 'org.jetbrains:annotations:23.0.0'
 
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
