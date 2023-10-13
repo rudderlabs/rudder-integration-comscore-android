@@ -15,6 +15,9 @@ import java.util.Map;
 
 public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     private static final String COMSCORE_KEY = "Comscore";
+    private static final String NAME = "name";
+    private static final String USER_ID = "userId";
+    private static final String ID = "id";
 
     private final ComscoreDestinationConfig destinationConfig;
 
@@ -82,11 +85,6 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     }
 
     @Override
-    public void reset() {
-        RudderLogger.logWarn("Method not supported!");
-    }
-
-    @Override
     public void dump(RudderMessage element) {
         if (element == null) return;
 
@@ -108,34 +106,55 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
         }
     }
 
-    public void track(RudderMessage element) {
-        String event = element.getEventName();
-        Map<String, Object> properties = element.getProperties();
-    }
-
-    private Map<String, String> getStringMap(Map<String, Object> input){
-        final Map<String, String> result = new HashMap<>();
-        for (final Map.Entry<String, Object> entry : input.entrySet()) {
-            result.put(entry.getKey(), String.valueOf(entry.getValue()));
-        }
-        return result;
-    }
-
     public void identify(RudderMessage element) {
-        String userId = element.getUserId();
-        String anonymousId = element.getAnonymousId();
-        Map<String, String> traits = this.getStringMap(element.getTraits());
-        traits.put("userId", userId);
-        traits.put("anonymousId", anonymousId);
-//        Analytics.setPersistentLabels(traits);
+        Map<String, String> traits = Utils.getStringMap(element.getTraits());
+        // Remove duplicate key, as userId is already present in the traits
+        traits.remove(ID);
+        Analytics.getConfiguration().addPersistentLabels(traits);
+        Analytics.notifyHiddenEvent();
+    }
+
+    public void track(RudderMessage element) {
+        String eventName = element.getEventName();
+        if (Utils.isEmpty(eventName)) {
+            RudderLogger.logError("Event name is null or empty. Hence dropping the Comscore track event.");
+            return;
+        }
+
+        Map<String, String> comScoreLabels = new HashMap<>();
+        comScoreLabels.put(NAME, eventName);
+
+        Map<String, Object> properties = element.getProperties();
+        if (!Utils.isEmpty(properties)) {
+            comScoreLabels.putAll(Utils.getStringMap(properties));
+        }
+
+        Analytics.notifyHiddenEvent(comScoreLabels);
     }
 
     public void screen(RudderMessage element) {
-        String name = element.getEventName() != null ? element.getEventName() : (String) element.getProperties().get("name");//screen.name();
-        String category = (String) element.getProperties().get("category");
-        Map<String, String> properties = this.getStringMap(element.getProperties());//(HashMap<String, String>) element.properties().toStringMap();
-        properties.put("name", name);
-        properties.put("category", category);
-//        Analytics.notifyViewEvent(properties);
+        Map<String, String> comScoreLabels = new HashMap<>();
+        if (!Utils.isEmpty(element.getEventName())) {
+            comScoreLabels.put(NAME, element.getEventName());
+        }
+
+        Map<String, Object> properties = element.getProperties();
+        if (!Utils.isEmpty(properties)) {
+            comScoreLabels.putAll(Utils.getStringMap(properties));
+            // Map category to ns_category
+            Utils.updateCategoryLabelMappingToNSCategory(comScoreLabels);
+        }
+
+        Analytics.notifyViewEvent(comScoreLabels);
+    }
+
+    @Override
+    public void reset() {
+        Analytics.getConfiguration().removePersistentLabel(USER_ID);
+    }
+
+    @Override
+    public void flush() {
+        RudderLogger.logInfo("Comscore doesn't support flush.");
     }
 }
