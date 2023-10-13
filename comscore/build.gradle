@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -21,17 +21,14 @@ dependencies {
 
     // rudder core sdk
     implementation 'com.rudderstack.android.sdk:core:[1.17.0, 2.0.0)'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // comscore sdk and other requirements
-    implementation "com.comscore:android-analytics:6.0.0"
-    implementation 'com.google.firebase:firebase-appindexing:19.0.0'
-    implementation 'com.google.android.gms:play-services-ads:16+'
+    implementation "com.comscore:android-analytics:6.10.0"
 
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
-    testImplementation "org.robolectric:robolectric:4.3"
-    testImplementation "androidx.test:core-ktx:1.2.0"
+    testImplementation "org.robolectric:robolectric:4.10"
 }
 
 apply from: rootProject.file('gradle/mvn-publish.gradle')
