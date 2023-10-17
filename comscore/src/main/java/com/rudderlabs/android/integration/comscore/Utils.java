@@ -18,7 +18,6 @@ public class Utils {
     public static final String APP_NAME = "appName";
     public static final String FOREGROUND_AND_BACKGROUND = "foregroundAndBackground";
     public static final String AUTO_UPDATE_INTERVAL = "autoUpdateInterval";
-    public static final String AUTO_UPDATE_INTERVAL1 = "autoUpdateInterval";
     public static final String FOREGROUND_ONLY = "foregroundOnly";
 
     static ComscoreDestinationConfig createConfig(Object config) {
@@ -31,7 +30,7 @@ public class Utils {
                     boolean foregroundAndBackground = jsonObject.get(FOREGROUND_AND_BACKGROUND).getAsBoolean();
                     int autoUpdateInterval = 60;    // Default value mentioned in comScore doc is 60 seconds
                     if (!Utils.isEmpty(jsonObject.get(AUTO_UPDATE_INTERVAL).getAsString())) {
-                        autoUpdateInterval = jsonObject.get(AUTO_UPDATE_INTERVAL1).getAsInt();
+                        autoUpdateInterval = jsonObject.get(AUTO_UPDATE_INTERVAL).getAsInt();
                     }
 
                     boolean useHTTPS = true;
