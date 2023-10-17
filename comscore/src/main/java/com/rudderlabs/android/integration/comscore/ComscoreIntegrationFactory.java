@@ -74,10 +74,10 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     private void updateApplicationUsageTime() {
         Configuration configuration = Analytics.getConfiguration();
         configuration.setUsagePropertiesAutoUpdateInterval(destinationConfig.getAutoUpdateInterval());
-        if (destinationConfig.isForegroundOnly()) {   // Default mode
-            configuration.setUsagePropertiesAutoUpdateMode(UsagePropertiesAutoUpdateMode.FOREGROUND_ONLY);
-        } else if (destinationConfig.isForegroundAndBackground()) {
+        if (destinationConfig.isForegroundAndBackground()) {
             configuration.setUsagePropertiesAutoUpdateMode(UsagePropertiesAutoUpdateMode.FOREGROUND_AND_BACKGROUND);
+        } else if (destinationConfig.isForegroundOnly()) {
+            configuration.setUsagePropertiesAutoUpdateMode(UsagePropertiesAutoUpdateMode.FOREGROUND_ONLY);
         } else {
             configuration.setUsagePropertiesAutoUpdateMode(UsagePropertiesAutoUpdateMode.DISABLED);
         }
