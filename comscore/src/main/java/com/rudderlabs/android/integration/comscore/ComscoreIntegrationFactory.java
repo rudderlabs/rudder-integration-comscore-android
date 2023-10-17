@@ -36,7 +36,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     private ComscoreIntegrationFactory(Object config, RudderConfig rudderConfig) {
         this.destinationConfig = Utils.createConfig(config);
         initComscoreSDK(rudderConfig);
-        RudderLogger.logVerbose("Comscore SDK initialized");
+        RudderLogger.logVerbose("RudderComscoreIntegration: Comscore SDK initialized");
     }
 
     private void initComscoreSDK(RudderConfig rudderConfig) {
@@ -117,7 +117,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     public void track(RudderMessage element) {
         String eventName = element.getEventName();
         if (Utils.isEmpty(eventName)) {
-            RudderLogger.logError("Event name is null or empty. Hence dropping the Comscore track event.");
+            RudderLogger.logDebug("RudderComscoreIntegration: Since the event name is not present, the track event sent to Comscore has been dropped.");
             return;
         }
 
@@ -155,6 +155,6 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     @Override
     public void flush() {
-        RudderLogger.logInfo("Comscore doesn't support flush.");
+        RudderLogger.logInfo("RudderComscoreIntegration: Comscore doesn't support flush.");
     }
 }
