@@ -41,7 +41,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     private void initComscoreSDK(RudderConfig rudderConfig) {
         final PublisherConfiguration publisherConfiguration = new PublisherConfiguration.Builder()
-                .publisherId(destinationConfig.getC2())
+                .publisherId(destinationConfig.getPublisherID())
                 .secureTransmission(destinationConfig.isUseHTTPS())
                 .build();
 

@@ -4,15 +4,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ComscoreDestinationConfig {
-    private final String c2;
+    private final String publisherID;
     private final String appName;
     private final boolean foregroundAndBackground;
     private final int autoUpdateInterval;
     private final boolean useHTTPS;
     private final boolean foregroundOnly;
 
-    public ComscoreDestinationConfig(String c2, @Nullable String appName, boolean foregroundAndBackground, int autoUpdateInterval, boolean useHTTPS, boolean foregroundOnly) {
-        this.c2 = c2;
+    public ComscoreDestinationConfig(String publisherID, @Nullable String appName, boolean foregroundAndBackground, int autoUpdateInterval, boolean useHTTPS, boolean foregroundOnly) {
+        this.publisherID = publisherID;
         this.appName = appName;
         this.foregroundAndBackground = foregroundAndBackground;
         this.autoUpdateInterval = autoUpdateInterval;
@@ -21,8 +21,8 @@ public class ComscoreDestinationConfig {
     }
 
     @NotNull
-    public String getC2() {
-        return c2;
+    public String getPublisherID() {
+        return publisherID;
     }
 
     @Nullable
