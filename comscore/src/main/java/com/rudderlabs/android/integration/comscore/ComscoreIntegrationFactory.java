@@ -34,6 +34,10 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     private ComscoreIntegrationFactory(Object config, RudderConfig rudderConfig) {
         this.destinationConfig = Utils.createConfig(config);
+        if (this.destinationConfig == null) {
+            RudderLogger.logError("RudderComscoreIntegration: Destination config is null. Aborting initialization.");
+            return;
+        }
         initComscoreSDK(rudderConfig);
         RudderLogger.logVerbose("RudderComscoreIntegration: Comscore SDK initialized");
     }
@@ -47,14 +51,13 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
         setLog(rudderConfig);
 
         Configuration configuration = Analytics.getConfiguration();
-
         configuration.addClient(publisherConfiguration);
-        Analytics.start(RudderClient.getApplication());
-
         if (destinationConfig.getAppName() != null) {
             configuration.setApplicationName(destinationConfig.getAppName());
         }
         updateApplicationUsageTime();
+
+        Analytics.start(RudderClient.getApplication());
     }
 
     private void setLog(RudderConfig rudderConfig) {

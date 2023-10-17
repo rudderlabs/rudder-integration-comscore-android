@@ -19,28 +19,47 @@ public class Utils {
     public static final String FOREGROUND_ONLY = "foregroundOnly";
 
     static ComscoreDestinationConfig createConfig(Object config) {
-        JsonDeserializer<ComscoreDestinationConfig> deserializer =
-                (json, typeOfT, context) -> {
-                    JsonObject jsonObject = json.getAsJsonObject();
+        if (config == null) {
+            return null;
+        }
 
-                    String publisherId = jsonObject.get(PUBLISHER_ID).getAsString();
-                    String appName = jsonObject.get(APP_NAME).getAsString();
-                    boolean foregroundAndBackground = jsonObject.get(FOREGROUND_AND_BACKGROUND).getAsBoolean();
-                    int autoUpdateInterval = 60;    // Default value mentioned in comScore doc is 60 seconds
-                    if (!Utils.isEmpty(jsonObject.get(AUTO_UPDATE_INTERVAL).getAsString())) {
-                        autoUpdateInterval = jsonObject.get(AUTO_UPDATE_INTERVAL).getAsInt();
-                    }
+        if (config instanceof Map) {
+            Map<String, Object> configMap = (Map<String, Object>) config;
+            if (isEmpty(configMap)) {
+                return null;
+            }
+            String publisherId = getString(configMap.get(PUBLISHER_ID));
+            String appName = getString(configMap.get(APP_NAME));
+            boolean foregroundAndBackground = getBoolean(configMap.get(FOREGROUND_AND_BACKGROUND), false);
+            int autoUpdateInterval = getAutoUpdateInterval(configMap.get(AUTO_UPDATE_INTERVAL), 60);
+            boolean useHTTPS = true;
+            boolean foregroundOnly = getBoolean(configMap.get(FOREGROUND_ONLY), true);
 
-                    boolean useHTTPS = true;
-                    boolean foregroundOnly = jsonObject.get(FOREGROUND_ONLY).getAsBoolean();
+            return new ComscoreDestinationConfig(publisherId, appName, foregroundAndBackground, autoUpdateInterval, useHTTPS, foregroundOnly);
+        }
+        return null;
+    }
 
-                    return new ComscoreDestinationConfig(publisherId, appName, foregroundAndBackground, autoUpdateInterval, useHTTPS, foregroundOnly);
-                };
+    private static int getAutoUpdateInterval(Object interval, int defaultInterval) {
+        String autoUpdateInterval = getString(interval);
+        if (isEmpty(autoUpdateInterval)) {
+            return defaultInterval;
+        }
+        return getInt(autoUpdateInterval, defaultInterval);
+    }
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(ComscoreDestinationConfig.class, deserializer);
-        Gson customGson = gsonBuilder.create();
-        return customGson.fromJson(customGson.toJson(config), ComscoreDestinationConfig.class);
+    static int getInt(Object value, int defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return Integer.parseInt(value.toString());
+    }
+
+    static boolean getBoolean(Object value, boolean defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return Boolean.parseBoolean(value.toString());
     }
 
     static boolean isEmpty(String str) {
