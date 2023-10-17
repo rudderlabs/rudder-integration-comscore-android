@@ -58,16 +58,23 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     }
 
     private void setLog(RudderConfig rudderConfig) {
-        if (rudderConfig.getLogLevel() >= RudderLogger.RudderLogLevel.VERBOSE) {
-            Analytics.setLogLevel(LogLevel.VERBOSE);
-        } else if (rudderConfig.getLogLevel() >= RudderLogger.RudderLogLevel.INFO) {
-            Analytics.setLogLevel(LogLevel.DEBUG);
-        } else if (rudderConfig.getLogLevel() >= RudderLogger.RudderLogLevel.WARN) {
-            Analytics.setLogLevel(LogLevel.WARN);
-        } else if (rudderConfig.getLogLevel() >= RudderLogger.RudderLogLevel.ERROR) {
-            Analytics.setLogLevel(LogLevel.ERROR);
-        } else {
-            Analytics.setLogLevel(LogLevel.NONE);
+        switch (rudderConfig.getLogLevel()) {
+            case RudderLogger.RudderLogLevel.VERBOSE:
+                Analytics.setLogLevel(LogLevel.VERBOSE);
+                break;
+            case RudderLogger.RudderLogLevel.DEBUG:
+            case RudderLogger.RudderLogLevel.INFO:
+                Analytics.setLogLevel(LogLevel.DEBUG);
+                break;
+            case RudderLogger.RudderLogLevel.WARN:
+                Analytics.setLogLevel(LogLevel.WARN);
+                break;
+            case RudderLogger.RudderLogLevel.ERROR:
+                Analytics.setLogLevel(LogLevel.ERROR);
+                break;
+            default:
+                Analytics.setLogLevel(LogLevel.NONE);
+                break;
         }
     }
 
