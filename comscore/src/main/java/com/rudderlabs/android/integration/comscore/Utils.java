@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
-    private static final String CATEGORY = "category";
-    private static final String NS_CATEGORY = "ns_category";
     public static final String PUBLISHER_ID = "publisherId";
     public static final String APP_NAME = "appName";
     public static final String FOREGROUND_AND_BACKGROUND = "foregroundAndBackground";
@@ -66,12 +64,5 @@ public class Utils {
             }
         }
         return output;
-    }
-
-    static void updateCategoryLabelMappingToNSCategory(@NotNull Map<String, String> labels) {
-        if (labels.containsKey(CATEGORY)) {
-            labels.put(NS_CATEGORY, labels.get(CATEGORY));
-            labels.remove(CATEGORY);
-        }
     }
 }

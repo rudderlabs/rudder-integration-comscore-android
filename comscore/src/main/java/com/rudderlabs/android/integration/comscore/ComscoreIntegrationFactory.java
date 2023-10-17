@@ -142,8 +142,6 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
         Map<String, Object> properties = element.getProperties();
         if (!Utils.isEmpty(properties)) {
             comScoreLabels.putAll(Utils.getStringMap(properties));
-            // Map category to ns_category
-            Utils.updateCategoryLabelMappingToNSCategory(comScoreLabels);
         }
 
         Analytics.notifyViewEvent(comScoreLabels);
