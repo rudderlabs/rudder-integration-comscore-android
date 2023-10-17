@@ -151,7 +151,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     @Override
     public void reset() {
-        Analytics.getConfiguration().removePersistentLabel(USER_ID);
+        Analytics.getConfiguration().removeAllPersistentLabels();
     }
 
     @Override
