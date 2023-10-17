@@ -14,7 +14,7 @@ import java.util.Map;
 public class Utils {
     private static final String CATEGORY = "category";
     private static final String NS_CATEGORY = "ns_category";
-    public static final String PUBLISHER_ID = "publisherID";
+    public static final String PUBLISHER_ID = "publisherId";
     public static final String APP_NAME = "appName";
     public static final String FOREGROUND_AND_BACKGROUND = "foregroundAndBackground";
     public static final String AUTO_UPDATE_INTERVAL = "autoUpdateInterval";
@@ -25,7 +25,7 @@ public class Utils {
                 (json, typeOfT, context) -> {
                     JsonObject jsonObject = json.getAsJsonObject();
 
-                    String c2 = jsonObject.get(PUBLISHER_ID).getAsString();
+                    String publisherId = jsonObject.get(PUBLISHER_ID).getAsString();
                     String appName = jsonObject.get(APP_NAME).getAsString();
                     boolean foregroundAndBackground = jsonObject.get(FOREGROUND_AND_BACKGROUND).getAsBoolean();
                     int autoUpdateInterval = 60;    // Default value mentioned in comScore doc is 60 seconds
@@ -36,7 +36,7 @@ public class Utils {
                     boolean useHTTPS = true;
                     boolean foregroundOnly = jsonObject.get(FOREGROUND_ONLY).getAsBoolean();
 
-                    return new ComscoreDestinationConfig(c2, appName, foregroundAndBackground, autoUpdateInterval, useHTTPS, foregroundOnly);
+                    return new ComscoreDestinationConfig(publisherId, appName, foregroundAndBackground, autoUpdateInterval, useHTTPS, foregroundOnly);
                 };
 
         GsonBuilder gsonBuilder = new GsonBuilder();
