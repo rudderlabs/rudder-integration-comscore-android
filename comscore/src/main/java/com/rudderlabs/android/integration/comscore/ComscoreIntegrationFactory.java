@@ -16,7 +16,6 @@ import java.util.Map;
 public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
     private static final String COMSCORE_KEY = "Comscore";
     private static final String NAME = "name";
-    private static final String USER_ID = "userId";
     private static final String ID = "id";
 
     private final ComscoreDestinationConfig destinationConfig;
@@ -134,10 +133,12 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     public void screen(RudderMessage element) {
         Map<String, String> comScoreLabels = new HashMap<>();
-        if (!Utils.isEmpty(element.getEventName())) {
-            comScoreLabels.put(NAME, element.getEventName());
+        String screenName = element.getEventName();
+        if (Utils.isEmpty(screenName)) {
+            RudderLogger.logDebug("RudderComscoreIntegration: Since the screen name is not present, the screen event sent to Comscore has been dropped.");
+            return;
         }
-
+        comScoreLabels.put(NAME, screenName);
         Map<String, Object> properties = element.getProperties();
         if (!Utils.isEmpty(properties)) {
             comScoreLabels.putAll(Utils.getStringMap(properties));
