@@ -1,7 +1,7 @@
 package com.rudderlabs.android.sample.kotlin
 
 import android.app.Application
-import com.rudderlabs.android.integration.comscore.ComscoreIntegrationFactory
+import com.rudderstack.android.integration.comscore.ComscoreIntegrationFactory
 import com.rudderstack.android.sdk.core.RudderClient
 import com.rudderstack.android.sdk.core.RudderConfig
 import com.rudderstack.android.sdk.core.RudderLogger
@@ -19,7 +19,7 @@ class MainApplication : Application() {
             RudderConfig.Builder()
                 .withControlPlaneUrl(BuildConfig.CONTROL_PLANE_URL)
                 .withDataPlaneUrl(BuildConfig.DATA_PLANE_URL)
-                .withLogLevel(RudderLogger.RudderLogLevel.NONE)
+                .withLogLevel(RudderLogger.RudderLogLevel.VERBOSE)
                 .withTrackLifecycleEvents(false)
                 .withFactory(ComscoreIntegrationFactory.FACTORY)
                 .build()

@@ -1,5 +1,7 @@
 package com.rudderstack.android.integration.comscore;
 
+import androidx.annotation.VisibleForTesting;
+
 import com.comscore.Analytics;
 import com.comscore.Configuration;
 import com.comscore.PublisherConfiguration;
@@ -20,6 +22,8 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     private final ComscoreDestinationConfig destinationConfig;
 
+    private Configuration configuration = null;
+
     public static Factory FACTORY = new Factory() {
         @Override
         public RudderIntegration<?> create(Object config, RudderClient client, RudderConfig rudderConfig) {
@@ -32,6 +36,12 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
         }
     };
 
+    @VisibleForTesting
+    ComscoreIntegrationFactory(Configuration configuration, Object config) {
+        this.configuration = configuration;
+        this.destinationConfig = Utils.createConfig(config);
+    }
+
     private ComscoreIntegrationFactory(Object config, RudderConfig rudderConfig) {
         this.destinationConfig = Utils.createConfig(config);
         if (this.destinationConfig == null) {
@@ -39,6 +49,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
             return;
         }
         initComscoreSDK(rudderConfig);
+        this.configuration = Analytics.getConfiguration();
         RudderLogger.logVerbose("RudderComscoreIntegration: Comscore SDK initialized");
     }
 
@@ -115,15 +126,15 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
         }
     }
 
-    public void identify(RudderMessage element) {
+    private void identify(RudderMessage element) {
         Map<String, String> traits = Utils.getStringMap(element.getTraits());
         // Remove duplicate key, as userId is already present in the traits
         traits.remove(ID);
-        Analytics.getConfiguration().addPersistentLabels(traits);
+        this.configuration.addPersistentLabels(traits);
         Analytics.notifyHiddenEvent();
     }
 
-    public void track(RudderMessage element) {
+    private void track(RudderMessage element) {
         String eventName = element.getEventName();
         if (Utils.isEmpty(eventName)) {
             RudderLogger.logDebug("RudderComscoreIntegration: Since the event name is not present, the track event sent to Comscore has been dropped.");
@@ -141,7 +152,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
         Analytics.notifyHiddenEvent(comScoreLabels);
     }
 
-    public void screen(RudderMessage element) {
+    private void screen(RudderMessage element) {
         Map<String, String> comScoreLabels = new HashMap<>();
         String screenName = element.getEventName();
         if (Utils.isEmpty(screenName)) {
@@ -159,7 +170,7 @@ public class ComscoreIntegrationFactory extends RudderIntegration<Void> {
 
     @Override
     public void reset() {
-        Analytics.getConfiguration().removeAllPersistentLabels();
+        this.configuration.removeAllPersistentLabels();
     }
 
     @Override
