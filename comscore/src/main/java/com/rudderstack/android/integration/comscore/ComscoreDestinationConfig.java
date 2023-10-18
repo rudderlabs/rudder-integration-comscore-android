@@ -1,4 +1,4 @@
-package com.rudderlabs.android.integration.comscore;
+package com.rudderstack.android.integration.comscore;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
