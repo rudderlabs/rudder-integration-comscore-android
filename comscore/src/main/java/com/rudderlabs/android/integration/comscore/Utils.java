@@ -1,10 +1,5 @@
 package com.rudderlabs.android.integration.comscore;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonObject;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
