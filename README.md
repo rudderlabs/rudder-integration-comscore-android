@@ -1,50 +1,47 @@
-[ ![Download](https://api.bintray.com/packages/rudderstack/rudderstack/comscore/images/download.svg?version=0.1.1) ](https://bintray.com/rudderstack/rudderstack/comscore/0.1.1/link)
+# What is RudderStack?
 
-# What is Rudder?
+[RudderStack](https://rudderstack.com/) is a **customer data pipeline tool** for collecting, routing and processing data from your websites, apps, cloud tools, and data warehouse.
 
-**Short answer:** 
-Rudder is an open-source Segment alternative written in Go, built for the enterprise. .
+With RudderStack, you can build customer data pipelines that connect your whole customer data stack and then make them smarter by triggering enrichment and activation in customer tools based on analysis in your data warehouse. Its easy-to-use SDKs and event source integrations, Cloud Extract integrations, transformations, and expansive library of destination and warehouse integrations makes building customer data pipelines for both event streaming and cloud-to-warehouse ELT simple.
 
-**Long answer:** 
-Rudder is a platform for collecting, storing and routing customer event data to dozens of tools. Rudder is open-source, can run in your cloud environment (AWS, GCP, Azure or even your data-centre) and provides a powerful transformation framework to process your event data on the fly.
+| Try **RudderStack Cloud Free** - a no time limit, no credit card required, completely free tier of [RudderStack Cloud](https://resources.rudderstack.com/rudderstack-cloud). Click [here](https://app.rudderlabs.com/signup?type=freetrial) to start building a smarter customer data pipeline today, with RudderStack Cloud Free. |
+|:------|
 
-Released under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+Questions? Please join our [Slack channel](https://resources.rudderstack.com/join-rudderstack-slack) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
 
 ## Getting Started with BranchIO Integration of Android SDK
-1. Add [Comscore](https://www.comscore.com/) as a destination in the [Dashboard](https://app.rudderlabs.com/) and define ```c2 ID``` and ```publisher secret```
 
-2. Add these lines to your ```app/build.gradle```
+1. Add [Comscore](https://www.comscore.com/) as a destination in the [Dashboard](https://app.rudderlabs.com/) and define ```publisher ID```
+2. Open your project level ```build.gradle``` file, and add the following lines of code:
 ```
-repositories {
-  maven {
-    maven { url "https://dl.bintray.com/rudderstack/rudderstack" }
-  }
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 ```
 3. Add the dependency under ```dependencies```
 ```
-implementation 'com.rudderstack.android.sdk:core:1.0'
-implementation 'com.rudderstack.android.integration:comscore:0.1.1'
+implementation 'com.rudderstack.android.sdk:core:[1.17.0,2.0)'
+implementation 'com.rudderstack.android.integration:comscore:1.0.0'
 ```
 
 ## Initialize ```RudderClient```
 ```
 val rudderClient: RudderClient = RudderClient.getInstance(
     this,
-    WRITE_KEY,
+    <WRITE_KEY>,
     RudderConfig.Builder()
-        .withEndPointUri(END_POINT_URI)
-        .withLogLevel(RudderLogger.RudderLogLevel.DEBUG)
-        .withFactory(ComscoreIntegrationFactory.FACTORY)
+        .withDataPlaneUrl(<DATA_PLANE_URL>)
+        .withFactoryComscoreIntegrationFactory.FACTORY)
         .build()
 )
 ```
 
 ## Send Events
 Follow the steps from [Rudder Android SDK](https://github.com/rudderlabs/rudder-sdk-android)
-
-# Coming Soon
-1. Native platform SDK integration support
-2. More documentation
-3. More destination support
-# rudder-integration-comscore-android

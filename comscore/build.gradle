@@ -1,25 +1,17 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-    }
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
 
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
 android {
-    compileSdkVersion 29
+    namespace 'com.rudderstack.android.integration.comscore'
+    compileSdk 33
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "0.1.0"
+        minSdk 21
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -28,30 +20,40 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-}
-
-repositories {
-    maven { url "https://dl.bintray.com/rudderstack/rudderstack" }
-    maven { url "https://comscore.bintray.com/Analytics" }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // rudder core sdk
-    //compileOnly 'com.rudderstack.android.sdk:core:1.0'
-    compileOnly project(':core')
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.rudderstack.android.sdk:core:[1.17.0, 2.0.0)'
 
     // comscore sdk and other requirements
-    implementation "com.comscore:android-analytics:6.0.0"
-    implementation 'com.google.firebase:firebase-appindexing:19.0.0'
-    implementation 'com.google.android.gms:play-services-ads:16+'
+    implementation "com.comscore:android-analytics:6.10.0"
 
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // unit test dependencies
+    testImplementation "com.rudderstack.android.sdk:core:[1.7.0, 2.0)"
+    testImplementation 'com.rudderstack.android.test:testio:0.0.0-SNAPSHOT'
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
-    testImplementation "org.robolectric:robolectric:4.3"
-    testImplementation "androidx.test:core-ktx:1.2.0"
+    testImplementation "org.robolectric:robolectric:4.10"
+    testImplementation "androidx.test:core-ktx:1.5.0"
+    testImplementation "org.mockito:mockito-core:5.2.0"
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation "org.skyscreamer:jsonassert:1.5.1"
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
 }
 
-apply from: './maven.gradle'
+apply from: rootProject.file('gradle/mvn-publish.gradle')
+apply from: rootProject.file('gradle/codecov.gradle')
