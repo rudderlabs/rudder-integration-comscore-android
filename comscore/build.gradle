@@ -1,11 +1,17 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
+    namespace 'com.rudderstack.android.integration.comscore'
     compileSdk 33
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdk 21
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -13,6 +19,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -25,10 +35,24 @@ dependencies {
     // comscore sdk and other requirements
     implementation "com.comscore:android-analytics:6.10.0"
 
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // unit test dependencies
+    testImplementation "com.rudderstack.android.sdk:core:[1.7.0, 2.0)"
+    testImplementation 'com.rudderstack.android.test:testio:0.0.0-SNAPSHOT'
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
     testImplementation "org.robolectric:robolectric:4.10"
+    testImplementation "androidx.test:core-ktx:1.5.0"
+    testImplementation "org.mockito:mockito-core:5.2.0"
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation "org.skyscreamer:jsonassert:1.5.1"
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
 }
 
 apply from: rootProject.file('gradle/mvn-publish.gradle')

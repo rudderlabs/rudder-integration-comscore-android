@@ -1,0 +1,12 @@
+{
+  "track": [
+    {
+      "key-1": "value-1",
+      "key-4": "1.23456789E9",
+      "key-3": "true",
+      "key-2": "20.39",
+      "name": "Test track event",
+      "category" : "test_category"
+    }
+  ]
+}

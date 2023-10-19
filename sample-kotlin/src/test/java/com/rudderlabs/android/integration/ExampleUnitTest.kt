@@ -1,4 +1,4 @@
-package com.rudderlabs.android.sdk
+package com.rudderlabs.android.integration
 
 import org.junit.Test
 
