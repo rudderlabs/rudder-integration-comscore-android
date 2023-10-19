@@ -1,0 +1,10 @@
+{
+  "screen": [
+    {
+      "property_screen_key_1": "property_value_2",
+      "name": "screen_event_name_with_properties",
+      "property_screen_key_2": "9876542.0",
+      "category": "category_value"
+    }
+  ]
+}
