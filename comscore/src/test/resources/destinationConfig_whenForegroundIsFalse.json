@@ -1,0 +1,11 @@
+{
+  "publisherId" : "1234566778",
+  "appName" : "Sample Android app",
+  "foregroundAndBackground" : "false",
+  "autoUpdateInterval" : "67",
+  "foregroundOnly" : "false",
+  "blacklistedEvents": [],
+  "whitelistedEvents": [],
+  "eventFilteringOption": "disable",
+  "oneTrustCookieCategories": []
+}
