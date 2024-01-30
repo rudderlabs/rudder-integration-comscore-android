@@ -9,7 +9,7 @@ With RudderStack, you can build customer data pipelines that connect your whole 
 
 Questions? Please join our [Slack channel](https://resources.rudderstack.com/join-rudderstack-slack) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
 
-## Getting Started with BranchIO Integration of Android SDK
+## Getting Started with Comscore Integration of Android SDK
 
 1. Add [Comscore](https://www.comscore.com/) as a destination in the [Dashboard](https://app.rudderlabs.com/) and define ```publisher ID```
 2. Open your project level ```build.gradle``` file, and add the following lines of code:
