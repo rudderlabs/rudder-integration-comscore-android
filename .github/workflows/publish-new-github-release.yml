@@ -34,18 +34,22 @@ jobs:
 
       - name: Extract version from branch name (for release branches)
         id: extract-version
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          if [ "$BRANCH_NAME" = "" ]; then BRANCH_NAME=${{ github.event.inputs.version }}
+          BRANCH_NAME="$PR_HEAD_REF"
+          if [ "$BRANCH_NAME" = "" ]; then BRANCH_NAME="$INPUT_VERSION"
           fi
           echo "BRANCH_NAME considered: ${BRANCH_NAME}"
           VERSION=${BRANCH_NAME#release/}
-          
+
           echo "release_version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Checkout
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
 
       - name: Setup Node
@@ -53,20 +57,19 @@ jobs:
         with:
           node-version: 16
 
-      # In order to make a commit, we need to initialize a user.
-      # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "GitHub actions"
-          git config user.email noreply@github.com
+      - name: Create verified tag via API
+        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        with:
+          commit-message: 'chore: release v${{ steps.extract-version.outputs.release_version }}'
+          tag: 'v${{ steps.extract-version.outputs.release_version }}'
 
-      - name: Create GitHub Release & Tag
+      - name: Create GitHub Release
         id: create_release
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          git tag -a v${{ steps.extract-version.outputs.release_version }} -m "chore: release v${{ steps.extract-version.outputs.release_version }}"
-          git push origin refs/tags/v${{ steps.extract-version.outputs.release_version }}
           DEBUG=conventional-github-releaser npx conventional-github-releaser -p angular
 
       - name: Delete release branch
