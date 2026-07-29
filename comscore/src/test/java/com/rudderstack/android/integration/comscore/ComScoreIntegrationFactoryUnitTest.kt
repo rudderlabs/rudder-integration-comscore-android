@@ -4,7 +4,6 @@ import com.comscore.Analytics
 import com.comscore.Configuration
 import com.google.gson.GsonBuilder
 import com.rudderstack.android.sdk.core.RudderMessage
-import com.rudderstack.android.test.testio.TestMyIO
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
 import org.junit.After
