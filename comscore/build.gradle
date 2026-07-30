@@ -42,7 +42,6 @@ dependencies {
 
     // unit test dependencies
     testImplementation "com.rudderstack.android.sdk:core:[1.7.0, 2.0)"
-    testImplementation 'com.rudderstack.android.test:testio:0.0.0-SNAPSHOT'
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
     testImplementation "org.robolectric:robolectric:4.10"
